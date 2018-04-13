@@ -96,6 +96,8 @@ PRODUCT_PACKAGES += \
     libstagefright_foundation \
     libstagefright_omx \
     libstagefright_yuv \
+    libsudautils \
+    libsuda-phoneloc-jni \
     libusbhost \
     libutils \
     libvisualizer \
