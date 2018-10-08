@@ -562,7 +562,13 @@ ACP := $(prebuilt_build_tools_bin)/acp
 CKATI := $(prebuilt_build_tools_bin)/ckati
 DEPMOD := $(HOST_OUT_EXECUTABLES)/depmod
 FILESLIST := $(SOONG_HOST_OUT_EXECUTABLES)/fileslist
+
+ifneq ($(IJAR_EXEC),)
+IJAR := $(IJAR_EXEC)
+else
 IJAR := $(prebuilt_build_tools_bin)/ijar
+endif
+
 MAKEPARALLEL := $(prebuilt_build_tools_bin)/makeparallel
 SOONG_JAVAC_WRAPPER := $(SOONG_HOST_OUT_EXECUTABLES)/soong_javac_wrapper
 SOONG_ZIP := $(SOONG_HOST_OUT_EXECUTABLES)/soong_zip
@@ -573,14 +579,18 @@ ZIPTIME := $(prebuilt_build_tools_bin)/ziptime
 # Generic tools.
 JACK := $(HOST_OUT_EXECUTABLES)/jack
 
+ifneq ($(FLEX_EXEC),)
+LEX := $(FLEX_EXEC)
+else
 LEX := prebuilts/misc/$(BUILD_OS)-$(HOST_PREBUILT_ARCH)/flex/flex-2.5.39
+endif
 # The default PKGDATADIR built in the prebuilt bison is a relative path
 # external/bison/data.
 # To run bison from elsewhere you need to set up enviromental variable
 # BISON_PKGDATADIR.
 BISON_PKGDATADIR := $(PWD)/external/bison/data
-ifeq ($(USE_HOST_BISON),yes)
-BISON := bison
+ifneq ($(BISON_EXEC),)
+BISON := $(BISON_EXEC)
 else
 BISON := prebuilts/misc/$(BUILD_OS)-$(HOST_PREBUILT_ARCH)/bison/bison
 endif
@@ -979,14 +989,6 @@ $(eval include device/rr/sepolicy/common/sepolicy.mk)
 # Include any vendor specific config.mk file
 -include $(TOPDIR)vendor/*/build/core/config.mk
 
-# Include any vendor specific apicheck.mk file
--include $(TOPDIR)vendor/*/build/core/apicheck.mk
-
-# Rules for QCOM targets
--include $(TOPDIR)vendor/rr/build/core/qcom_target.mk
-
-# Rules for MTK targets
--include $(TOPDIR)vendor/rr/build/core/mtk_target.mk
 endif
 
 include $(BUILD_SYSTEM)/dumpvar.mk
